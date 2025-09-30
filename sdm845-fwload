@@ -17,7 +17,6 @@ USR_SHARE=$EXTRACT_ROOT/usrshare
 # OnePlus 6 & OnePlus 6T
 FW_DIR_DEVICE=$LIB_FIRMWARE/qcom/sdm845/oneplus6
 FW_DIR_DEVICE_WLAN=$LIB_FIRMWARE/qca/oneplus6
-FW_DIR_OVERRIDE=$LIB_FIRMWARE/updates
 FW_DIR_DSP=$USR_SHARE/qcom/sdm845/OnePlus/oneplus6
 
 HEXAGONRPC_SDSP_DESCRIPTOR=$USR_SHARE/hexagonrpcd/hexagonrpcd-sdsp.conf
@@ -122,8 +121,8 @@ extract_device_fw() {
   # /lib/firmware/updates/ath10k/WCN3990/hw1.0/board-2.bin
   # -- This file is generated from: https://github.com/jhugo/linux/tree/5.5rc2_wifi and 
   #    https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath10k/ath10k-bdencoder
-  extract_file bluetooth image/crbtfw21.tlv $FW_DIR_OVERRIDE/qca/crbtfw21.tlv
-  extract_file vendor etc/firmware/tfa98xx.cnt $FW_DIR_OVERRIDE/tfa98xx.cnt tolerant # OnePlus 6T only
+  extract_file bluetooth image/crbtfw21.tlv $LIB_FIRMWARE/qca/crbtfw21.tlv
+  extract_file vendor etc/firmware/tfa98xx.cnt $LIB_FIRMWARE/tfa98xx.cnt tolerant # OnePlus 6T only
 }
 
 extract_dsp_fw() {
