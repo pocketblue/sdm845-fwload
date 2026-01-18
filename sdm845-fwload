@@ -1,9 +1,14 @@
 #!/bin/bash
 
-PART_MODEM=/dev/disk/by-partlabel/modem_a
-PART_VENDOR=/dev/disk/by-partlabel/vendor_a
-PART_BLUETOOTH=/dev/disk/by-partlabel/bluetooth_a
-PART_DSP=/dev/disk/by-partlabel/dsp_a
+# Env arguments:
+# SLOT_SUFFIX (_a or _b) - optional
+# DEVICE_VENDOR (e.g. OnePlus, Xiaomi, ...)
+# DEVICE_NAME (e.g. oneplus6, beryllium, ...)
+
+PART_MODEM=/dev/disk/by-partlabel/modem${SLOT_SUFFIX}
+PART_VENDOR=/dev/disk/by-partlabel/vendor${SLOT_SUFFIX}
+PART_BLUETOOTH=/dev/disk/by-partlabel/bluetooth${SLOT_SUFFIX}
+PART_DSP=/dev/disk/by-partlabel/dsp${SLOT_SUFFIX}
 PART_PERSIST=/dev/disk/by-partlabel/persist
 
 ROOT=/mnt/sdm-fwload
@@ -14,10 +19,9 @@ EXTRACT_ROOT=$ROOT/extract
 LIB_FIRMWARE=$EXTRACT_ROOT/libfirmware
 USR_SHARE=$EXTRACT_ROOT/usrshare
 
-# OnePlus 6 & OnePlus 6T
-FW_DIR_DEVICE=$LIB_FIRMWARE/qcom/sdm845/oneplus6
-FW_DIR_DEVICE_WLAN=$LIB_FIRMWARE/qca/oneplus6
-FW_DIR_DSP=$USR_SHARE/qcom/sdm845/OnePlus/oneplus6
+FW_DIR_DEVICE=$LIB_FIRMWARE/qcom/sdm845/$DEVICE_NAME
+FW_DIR_DEVICE_WLAN=$LIB_FIRMWARE/qca/$DEVICE_NAME
+FW_DIR_DSP=$USR_SHARE/qcom/sdm845/$DEVICE_VENDOR/$DEVICE_NAME
 
 HEXAGONRPC_SDSP_DESCRIPTOR=$USR_SHARE/hexagonrpcd/hexagonrpcd-sdsp.conf
 
@@ -122,7 +126,9 @@ extract_device_fw() {
   # -- This file is generated from: https://github.com/jhugo/linux/tree/5.5rc2_wifi and 
   #    https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath10k/ath10k-bdencoder
   extract_file bluetooth image/crbtfw21.tlv $LIB_FIRMWARE/qca/crbtfw21.tlv
+
   extract_file vendor etc/firmware/tfa98xx.cnt $LIB_FIRMWARE/tfa98xx.cnt tolerant # OnePlus 6T only
+  extract_file vendor firmware/tas2559_uCDSP.bin $LIB_FIRMWARE/tas2559_uCDSP.bin # Poco F1 only
 }
 
 extract_dsp_fw() {
