@@ -26,7 +26,7 @@ FW_DIR_DSP=$USR_SHARE/qcom/sdm845/$DEVICE_VENDOR/$DEVICE_NAME
 HEXAGONRPC_SDSP_DESCRIPTOR=$USR_SHARE/hexagonrpcd/hexagonrpcd-sdsp.conf
 
 error() {
-  echo "$1" > /dev/stderr
+  echo "$1" >&2
 }
 
 mount_partition() {
